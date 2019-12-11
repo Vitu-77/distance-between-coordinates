@@ -12,7 +12,11 @@ const coordinates = [
 ]
 
 coordinates.forEach(coordinate => {
-    return L.circleMarker(coordinate).addTo(map)
+    return L.circleMarker(coordinate)
+        .addTo(map)
+        .on('click', (e) => {
+            console.log(e.target.getLatLng());
+        })
 });
 
 const getDistance = (origin, destination) => {
@@ -35,6 +39,13 @@ const toRadian = (degree) => {
     return degree * Math.PI / 180;
 }
 
-const distance = getDistance(coordinates[0], coordinates[1]);
-console.log(`Distância entre os pontos é aproximadamente: ${distance.toFixed(2)}m`);
-console.log(`Distância entre os pontos é aproximadamente: ${(distance / 1000).toFixed(2)}km`);
+for (let i = 0; i < coordinates.length; i++) {
+    for (let j = 0; j < coordinates.length; j++) {
+        const distance = getDistance(coordinates[i], coordinates[j]);
+        console.log(`Distância entre [${i + 1}] - [${j + 1}]: ${distance.toFixed(2)}m`);
+    }
+}
+
+// fetch('https://jsonplaceholder.typicode.com/todos')
+//     .then(response => response.json())
+//     .then(json => console.log(json))
